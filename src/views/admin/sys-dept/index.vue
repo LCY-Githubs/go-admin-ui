@@ -13,7 +13,12 @@
             />
           </el-form-item>
           <el-form-item label="状态">
-            <el-select v-model="queryParams.status" placeholder="部门状态" clearable size="small">
+            <el-select
+              v-model="queryParams.status"
+              placeholder="部门状态"
+              clearable
+              size="small"
+            >
               <el-option
                 v-for="dict in statusOptions"
                 :key="dict.value"
@@ -47,11 +52,16 @@
           row-key="deptId"
           default-expand-all
           border
-          :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
+          :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
         >
           <el-table-column prop="deptName" label="部门名称" />
           <el-table-column prop="sort" label="排序" width="200" />
-          <el-table-column prop="status" label="状态" :formatter="statusFormat" width="100">
+          <el-table-column
+            prop="status"
+            label="状态"
+            :formatter="statusFormat"
+            width="100"
+          >
             <template slot-scope="scope">
               <el-tag
                 :type="scope.row.status === 1 ? 'danger' : 'success'"
@@ -59,12 +69,21 @@
               >{{ statusFormat(scope.row) }}</el-tag>
             </template>
           </el-table-column>
-          <el-table-column label="创建时间" align="center" prop="createdAt" width="200">
+          <el-table-column
+            label="创建时间"
+            align="center"
+            prop="createdAt"
+            width="200"
+          >
             <template slot-scope="scope">
               <span>{{ parseTime(scope.row.createdAt) }}</span>
             </template>
           </el-table-column>
-          <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+          <el-table-column
+            label="操作"
+            align="center"
+            class-name="small-padding fixed-width"
+          >
             <template slot-scope="scope">
               <el-button
                 v-permisaction="['admin:sysDept:edit']"
@@ -110,27 +129,46 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item label="部门名称" prop="deptName">
-                  <el-input v-model="form.deptName" placeholder="请输入部门名称" />
+                  <el-input
+                    v-model="form.deptName"
+                    placeholder="请输入部门名称"
+                  />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="显示排序" prop="orderNum">
-                  <el-input-number v-model="form.sort" controls-position="right" :min="0" />
+                  <el-input-number
+                    v-model="form.sort"
+                    controls-position="right"
+                    :min="0"
+                  />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="负责人" prop="leader">
-                  <el-input v-model="form.leader" placeholder="请输入负责人" maxlength="20" />
+                  <el-input
+                    v-model="form.leader"
+                    placeholder="请输入负责人"
+                    maxlength="20"
+                  />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="联系电话" prop="phone">
-                  <el-input v-model="form.phone" placeholder="请输入联系电话" maxlength="11" />
+                  <el-input
+                    v-model="form.phone"
+                    placeholder="请输入联系电话"
+                    maxlength="11"
+                  />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="邮箱" prop="email">
-                  <el-input v-model="form.email" placeholder="请输入邮箱" maxlength="50" />
+                  <el-input
+                    v-model="form.email"
+                    placeholder="请输入邮箱"
+                    maxlength="50"
+                  />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -157,7 +195,13 @@
 </template>
 
 <script>
-import { getDeptList, getDept, delDept, addDept, updateDept } from '@/api/admin/sys-dept'
+import {
+  getDeptList,
+  getDept,
+  delDept,
+  addDept,
+  updateDept
+} from '@/api/admin/sys-dept'
 import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
@@ -185,8 +229,7 @@ export default {
         status: undefined
       },
       // 表单参数
-      form: {
-      },
+      form: {},
       // 表单校验
       rules: {
         parentId: [
@@ -220,7 +263,7 @@ export default {
   },
   created() {
     this.getList()
-    this.getDicts('sys_normal_disable').then(response => {
+    this.getDicts('sys_normal_disable').then((response) => {
       this.statusOptions = response.data
     })
   },
@@ -228,7 +271,7 @@ export default {
     /** 查询部门列表 */
     getList() {
       this.loading = true
-      getDeptList(this.queryParams).then(response => {
+      getDeptList(this.queryParams).then((response) => {
         this.deptList = response.data
         this.loading = false
       })
@@ -246,11 +289,16 @@ export default {
     },
     /** 查询部门下拉树结构 */
     getTreeselect(e) {
-      getDeptList().then(response => {
+      getDeptList().then((response) => {
         this.deptOptions = []
 
         if (e === 'update') {
-          const dept = { deptId: 0, deptName: '主类目', children: [], isDisabled: true }
+          const dept = {
+            deptId: 0,
+            deptName: '主类目',
+            children: [],
+            isDisabled: true
+          }
           dept.children = response.data
           this.deptOptions.push(dept)
         } else {
@@ -302,7 +350,7 @@ export default {
       this.reset()
       this.getTreeselect('update')
 
-      getDept(row.deptId).then(response => {
+      getDept(row.deptId).then((response) => {
         this.form = response.data
         this.form.status = String(this.form.status)
         this.form.sort = String(this.form.sort)
@@ -313,12 +361,12 @@ export default {
     },
     /** 提交按钮 */
     submitForm: function() {
-      this.$refs['form'].validate(valid => {
+      this.$refs['form'].validate((valid) => {
         if (valid) {
           this.form.status = parseInt(this.form.status)
           this.form.sort = parseInt(this.form.sort)
           if (this.form.deptId !== undefined) {
-            updateDept(this.form, this.form.deptId).then(response => {
+            updateDept(this.form, this.form.deptId).then((response) => {
               if (response.code === 200) {
                 this.msgSuccess(response.msg)
                 this.open = false
@@ -328,7 +376,7 @@ export default {
               }
             })
           } else {
-            addDept(this.form).then(response => {
+            addDept(this.form).then((response) => {
               if (response.code === 200) {
                 this.msgSuccess(response.msg)
                 this.open = false
@@ -354,8 +402,9 @@ export default {
         }
       )
         .then(function() {
-          return delDept({ 'ids': Ids })
-        }).then((response) => {
+          return delDept({ ids: Ids })
+        })
+        .then((response) => {
           if (response.code === 200) {
             this.msgSuccess(response.msg)
             this.open = false
@@ -363,7 +412,8 @@ export default {
           } else {
             this.msgError(response.msg)
           }
-        }).catch(function() {})
+        })
+        .catch(function() {})
     }
   }
 }
