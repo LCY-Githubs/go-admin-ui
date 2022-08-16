@@ -22,7 +22,13 @@ import permission from './directive/permission'
 import { getDicts } from '@/api/admin/dict/data'
 import { getItems, setItems } from '@/api/table'
 import { getConfigKey } from '@/api/admin/sys-config'
-import { parseTime, resetForm, addDateRange, selectDictLabel, /* download,*/ selectItemsLabel } from '@/utils/costum'
+import {
+  parseTime,
+  resetForm,
+  addDateRange,
+  selectDictLabel,
+  /* download,*/ selectItemsLabel
+} from '@/utils/costum'
 
 import './icons' // icon
 import './permission' // permission control
@@ -40,7 +46,7 @@ import VueParticles from 'vue-particles'
 Vue.use(VueParticles)
 
 import '@/utils/dialog'
-
+// 测试github
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts
 Vue.prototype.getItems = getItems
@@ -86,7 +92,7 @@ console.info(`欢迎使用go-admin，谢谢您对我们的支持，在使用过�
  谢谢！`)
 
 // register global utility filters
-Object.keys(filters).forEach(key => {
+Object.keys(filters).forEach((key) => {
   Vue.filter(key, filters[key])
 })
 
@@ -96,5 +102,5 @@ new Vue({
   el: '#app',
   router,
   store,
-  render: h => h(App)
+  render: (h) => h(App)
 })
